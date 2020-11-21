@@ -44,6 +44,6 @@ public class ExampleResource {
         payload.getContext().forEach((k, v) -> dmnContext.set(k, v));
         DMNResult evaluateAll = dmnRuntime.evaluateAll(dmnModel, dmnContext);
         System.out.println(evaluateAll.getContext());
-        return evaluateAll.getContext().toString();
+        return evaluateAll.getContext().toString(); // TODO
     }
 }

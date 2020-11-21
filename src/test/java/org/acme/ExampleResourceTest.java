@@ -1,16 +1,15 @@
 package org.acme;
 
-import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.http.ContentType;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.containsString;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.http.ContentType;
 
 @QuarkusTest
 public class ExampleResourceTest {
@@ -28,7 +27,7 @@ public class ExampleResourceTest {
         .when().post("/jitdmn")
         .then()
         .statusCode(200)
-        //.body(is("hello"))
+        .body(containsString("Loan Approval"), containsString("Approved"))
         ;
     }
     
