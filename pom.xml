@@ -44,6 +44,11 @@
   <artifactId>kogito-dmn</artifactId>
   <version>0.17.0</version>
 </dependency>
+<dependency>
+  <groupId>org.kie</groupId>
+  <artifactId>kie-dmn-openapi</artifactId>
+  <version>7.46.0.Final</version>
+</dependency>
 
     <dependency>
       <groupId>io.quarkus</groupId>
