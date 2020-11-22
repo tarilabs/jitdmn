@@ -48,7 +48,7 @@ public class SchemaResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String jitdmn(String payload) throws Exception {
         String modelXML = payload;
-        System.out.println(modelXML);
+        // System.out.println(modelXML);
         Resource modelResource = ResourceFactory.newReaderResource(new StringReader(modelXML), "UTF-8");
         DMNRuntime dmnRuntime = DMNRuntimeBuilder.fromDefaults().buildConfiguration().fromResources(Arrays.asList(modelResource)).getOrElseThrow(RuntimeException::new);
         DMNModel dmnModel = dmnRuntime.getModels().get(0);
@@ -78,7 +78,7 @@ public class SchemaResource {
     @Path("form")
     public String form(String payload) throws Exception {
         String modelXML = payload;
-        System.out.println(modelXML);
+        // System.out.println(modelXML);
         Resource modelResource = ResourceFactory.newReaderResource(new StringReader(modelXML), "UTF-8");
         DMNRuntime dmnRuntime = DMNRuntimeBuilder.fromDefaults().buildConfiguration().fromResources(Arrays.asList(modelResource)).getOrElseThrow(RuntimeException::new);
         DMNModel dmnModel = dmnRuntime.getModels().get(0);

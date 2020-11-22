@@ -41,7 +41,7 @@ public class ExampleResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String jitdmn(JITDMNPayload payload) throws Exception {
         String modelXML = payload.getModel();
-        System.out.println(modelXML);
+        // System.out.println(modelXML);
         Resource modelResource = ResourceFactory.newReaderResource(new StringReader(modelXML), "UTF-8");
         DMNRuntime dmnRuntime = DMNRuntimeBuilder.fromDefaults().buildConfiguration().fromResources(Arrays.asList(modelResource)).getOrElseThrow(RuntimeException::new);
         DMNModel dmnModel = dmnRuntime.getModels().get(0);
