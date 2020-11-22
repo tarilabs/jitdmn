@@ -9,6 +9,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.kie.api.io.KieResources;
 import org.kie.api.io.Resource;
 import org.kie.dmn.api.core.DMNContext;
@@ -26,15 +29,17 @@ public class ExampleResource {
     // @POST
     // @Produces(MediaType.TEXT_PLAIN)
     // public String jitdmn(JITDMNPayload payload) {
-    //     String modelXML = payload.getModel();
-    //     System.out.println(modelXML);
-    //     Definitions unmarshal = DMNMarshallerFactory.newDefaultMarshaller().unmarshal(new StringReader(payload.getModel()));
-    //     return unmarshal.getName();
+    // String modelXML = payload.getModel();
+    // System.out.println(modelXML);
+    // Definitions unmarshal =
+    // DMNMarshallerFactory.newDefaultMarshaller().unmarshal(new
+    // StringReader(payload.getModel()));
+    // return unmarshal.getName();
     // }
 
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    public String jitdmn(JITDMNPayload payload) {
+    public String jitdmn(JITDMNPayload payload) throws Exception {
         String modelXML = payload.getModel();
         System.out.println(modelXML);
         Resource modelResource = ResourceFactory.newReaderResource(new StringReader(modelXML), "UTF-8");
@@ -43,7 +48,8 @@ public class ExampleResource {
         DMNContext dmnContext = dmnRuntime.newContext();
         payload.getContext().forEach((k, v) -> dmnContext.set(k, v));
         DMNResult evaluateAll = dmnRuntime.evaluateAll(dmnModel, dmnContext);
-        System.out.println(evaluateAll.getContext());
-        return evaluateAll.getContext().toString(); // TODO
+        String result = new ObjectMapper().writeValueAsString(evaluateAll.getContext().getAll()); // TODO will need to stub out non-serializable functions.
+        System.out.println(result);
+        return result;
     }
 }
