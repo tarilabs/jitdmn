@@ -2,6 +2,9 @@ package org.acme;
 
 import java.io.StringReader;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,6 +23,7 @@ import org.kie.dmn.api.core.DMNResult;
 import org.kie.dmn.api.core.DMNRuntime;
 import org.kie.dmn.backend.marshalling.v1x.DMNMarshallerFactory;
 import org.kie.dmn.core.internal.utils.DMNRuntimeBuilder;
+import org.kie.dmn.core.internal.utils.MarshallingStubUtils;
 import org.kie.dmn.model.api.Definitions;
 import org.kie.internal.io.ResourceFactory;
 
@@ -48,7 +52,11 @@ public class ExampleResource {
         DMNContext dmnContext = dmnRuntime.newContext();
         payload.getContext().forEach((k, v) -> dmnContext.set(k, v));
         DMNResult evaluateAll = dmnRuntime.evaluateAll(dmnModel, dmnContext);
-        String result = new ObjectMapper().writeValueAsString(evaluateAll.getContext().getAll()); // TODO will need to stub out non-serializable functions.
+        Map<String, Object> restResulk = new HashMap<>();
+        for (Entry<String, Object> kv : evaluateAll.getContext().getAll().entrySet()) {
+            restResulk.put(kv.getKey(), MarshallingStubUtils.stubDMNResult(kv.getValue(), String::valueOf));
+        }
+        String result = new ObjectMapper().writeValueAsString(restResulk);
         System.out.println(result);
         return result;
     }
